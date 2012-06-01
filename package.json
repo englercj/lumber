@@ -1,0 +1,29 @@
+{
+    "name": "lumber",
+    "description": "A custom, async, extensible logging library",
+    "version": "0.0.1",
+    "author": "Chad Engler <chad@pantherdev.com>",
+    "repository": {
+	"type": "git",
+	"url": "https://github.com/englercj/lumber.git"
+    },
+    "keywords": [ "log", "logging", "logger", "tools", "cli" ],
+    "dependencies": {
+	"colors": "0.6.x",
+	"eyes": "0.1.x",
+	"pkginfo": "0.2.x",
+	"async": "0.1.x",
+	"cycle": "1.0.x",
+	"stack-trace": "0.0.x"
+    },
+    "devDependencies": {
+
+    },
+    "main": "./lib/lumber",
+    "scripts": {
+	"test": "node ./test/runner.js"
+    },
+    "engines": {
+	"node": ">= 0.4.0"
+    }
+}
