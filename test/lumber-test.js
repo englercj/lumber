@@ -37,10 +37,10 @@ vows.describe('lumber').addBatch({
 	    assert.isFunction(lumber.Logger);
 	    assert.isFunction(lumber.Transport);
 	    assert.isFunction(lumber.Encoder);
-	    //defaults
-	    assert.isObject(lumber.defaults);
-	    assert.isObject(lumber.defaults.levels);
-	    assert.isObject(lumber.defaults.colors);
+	    //config
+	    assert.isObject(lumber.config);
+	    assert.isObject(lumber.config.levels);
+	    assert.isObject(lumber.config.colors);
 
 	    //levels functions, for default logger
 	    /*
