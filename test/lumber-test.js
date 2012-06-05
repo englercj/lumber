@@ -18,20 +18,36 @@ vows.describe('lumber').addBatch({
 	    return null;
 	},
 	'should have the correct exports': function() {
+	    //global export
 	    assert.isObject(lumber);
+	    //transports
 	    assert.isObject(lumber.transports);
 	    assert.isFunction(lumber.transports.Console);
 	    assert.isFunction(lumber.transports.File);
 	    assert.isFunction(lumber.transports.Syslog);
 	    assert.isFunction(lumber.transports.Webservice);
+	    //encoders
+	    assert.isObject(lumber.encoders);
+	    assert.isFunction(lumber.encoders.Json);
+	    assert.isFunction(lumber.encoders.Xml);
+	    assert.isFunction(lumber.encoders.Text);
+	    //utils
+	    assert.isObject(lumber.util);
+	    //core
+	    assert.isFunction(lumber.Logger);
+	    assert.isFunction(lumber.Transport);
+	    assert.isFunction(lumber.Encoder);
+	    //defaults
 	    assert.isObject(lumber.defaults);
 	    assert.isObject(lumber.defaults.levels);
 	    assert.isObject(lumber.defaults.colors);
-	    assert.isFunction(lumber.Logger);
 
+	    //levels functions, for default logger
+	    /*
 	    Object.keys(lumber.defaults.levels).forEach(function(k) {
 		assert.isFunction(lumber[k]);
 	    });
+	    */
 	},
 	'should': {
 	    topic: function() {
