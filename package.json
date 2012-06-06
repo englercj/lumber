@@ -14,7 +14,8 @@
 	"pkginfo": "0.2.x",
 	"async": "0.1.x",
 	"cycle": "1.0.x",
-	"stack-trace": "0.0.x"
+	"stack-trace": "0.0.x",
+	"dateformat": ">= 1"
     },
     "devDependencies": {
 	"vows": "0.6.x"

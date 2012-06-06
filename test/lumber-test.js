@@ -12,7 +12,7 @@ path = require('path'),
 vows = require('vows'),
 assert = require('assert');
 
-vows.describe('lumber').addBatch({
+vows.describe('Lumber').addBatch({
     'lumber module': {
 	topic: function() {
 	    return null;
@@ -38,9 +38,9 @@ vows.describe('lumber').addBatch({
 	    assert.isFunction(lumber.Transport);
 	    assert.isFunction(lumber.Encoder);
 	    //config
-	    assert.isObject(lumber.config);
-	    assert.isObject(lumber.config.levels);
-	    assert.isObject(lumber.config.colors);
+	    assert.isObject(lumber.defaults);
+	    assert.isObject(lumber.defaults.levels);
+	    assert.isObject(lumber.defaults.colors);
 
 	    //levels functions, for default logger
 	    /*
