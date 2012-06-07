@@ -2,7 +2,7 @@ node_modules/
 npm-debug.log
 coverage.xml
 results.xml
-checkstyle.xml
+jshint.xml
 lib-cov/
 *~
 \#*#
