@@ -1,6 +1,8 @@
 node_modules/
 npm-debug.log
 coverage.xml
+results.xml
+checkstyle.xml
 lib-cov/
 *~
 \#*#
