@@ -6,11 +6,12 @@
  *
  **/
 
-var lumber = require('../lib/lumber'),
-fs = require('fs'),
+var fs = require('fs'),
 path = require('path'),
 vows = require('vows'),
-assert = require('assert');
+assert = require('assert'),
+cov = require('./coverage'),
+lumber = cov.require('../lib/lumber');
 
 vows.describe('Lumber').addBatch({
     'lumber module': {

@@ -6,11 +6,12 @@
  *
  **/
 
-var common = require('../../lib/lumber/common'),
-fs = require('fs'),
+var fs = require('fs'),
 path = require('path'),
 vows = require('vows'),
-assert = require('assert');
+assert = require('assert'),
+cov = require('../coverage'),
+common = cov.require('../lib/lumber/common');
 
 vows.describe('Common').addBatch({
     'common module': {
