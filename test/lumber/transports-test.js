@@ -22,7 +22,6 @@ vows.describe('Transports').addBatch({
             assert.isObject(trans);
             assert.isFunction(trans.Console);
             assert.isFunction(trans.File);
-            assert.isFunction(trans.Syslog);
             assert.isFunction(trans.Webservice);
         }
     }

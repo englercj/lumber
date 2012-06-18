@@ -25,7 +25,6 @@ vows.describe('Lumber').addBatch({
             assert.isObject(lumber.transports);
             assert.isFunction(lumber.transports.Console);
             assert.isFunction(lumber.transports.File);
-            assert.isFunction(lumber.transports.Syslog);
             assert.isFunction(lumber.transports.Webservice);
             //encoders
             assert.isObject(lumber.encoders);
