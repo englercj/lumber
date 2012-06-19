@@ -52,26 +52,26 @@ vows.describe('Xml').addBatch({
             'without timestamp, with meta': function(enc) {
                 enc.timestamp = false;
 
-                assert.equal(enc.encode('info', 'The Message', { meta: 'data' }),
-			     '<log level="info"><head>INFO</head><message>The Message</message><meta><meta>data</meta></meta></log>');
+                assert.equal(enc.encode('info', 'The Message', { meta: 'data', ary: ['msg'] }),
+			     '<log level="info"><head>INFO</head><message>The Message</message><meta><meta>data</meta><ary><data>msg</data></ary></meta></log>');
 
-                assert.equal(enc.encode('warn', 'The Message', { meta: 'data' }),
-                             '<log level="warn"><head>WARN</head><message>The Message</message><meta><meta>data</meta></meta></log>');
+                assert.equal(enc.encode('warn', 'The Message', { meta: 'data', ary: ['msg'] }),
+                             '<log level="warn"><head>WARN</head><message>The Message</message><meta><meta>data</meta><ary><data>msg</data></ary></meta></log>');
 
-                assert.equal(enc.encode('error', 'The Message', { meta: 'data' }),
-                             '<log level="error"><head>ERROR</head><message>The Message</message><meta><meta>data</meta></meta></log>');
+                assert.equal(enc.encode('error', 'The Message', { meta: 'data', ary: ['msg'] }),
+                             '<log level="error"><head>ERROR</head><message>The Message</message><meta><meta>data</meta><ary><data>msg</data></ary></meta></log>');
             },
             'with timestamp, and meta': function(enc) {
                 enc.timestamp = true;
 
-                assert.match(enc.encode('info', 'The Message', { meta: 'data' }),
-			     (/<log level="info" timestamp="[\d\-]+T[\d:]+"><head>INFO<\/head><message>The Message<\/message><meta><meta>data<\/meta><\/meta><\/log>/));
+                assert.match(enc.encode('info', 'The Message', { meta: 'data', ary: ['msg'] }),
+			     (/<log level="info" timestamp="[\d\-]+T[\d:]+"><head>INFO<\/head><message>The Message<\/message><meta><meta>data<\/meta><ary><data>msg<\/data><\/ary><\/meta><\/log>/));
 
-                assert.match(enc.encode('warn', 'The Message', { meta: 'data' }),
-			     (/<log level="warn" timestamp="[\d\-]+T[\d:]+"><head>WARN<\/head><message>The Message<\/message><meta><meta>data<\/meta><\/meta><\/log>/));
+                assert.match(enc.encode('warn', 'The Message', { meta: 'data', ary: ['msg'] }),
+			     (/<log level="warn" timestamp="[\d\-]+T[\d:]+"><head>WARN<\/head><message>The Message<\/message><meta><meta>data<\/meta><ary><data>msg<\/data><\/ary><\/meta><\/log>/));
 
-                assert.match(enc.encode('error', 'The Message', { meta: 'data' }),
-			     (/<log level="error" timestamp="[\d\-]+T[\d:]+"><head>ERROR<\/head><message>The Message<\/message><meta><meta>data<\/meta><\/meta><\/log>/));
+                assert.match(enc.encode('error', 'The Message', { meta: 'data', ary: ['msg'] }),
+			     (/<log level="error" timestamp="[\d\-]+T[\d:]+"><head>ERROR<\/head><message>The Message<\/message><meta><meta>data<\/meta><ary><data>msg<\/data><\/ary><\/meta><\/log>/));
             }
 	}
     }
