@@ -49,22 +49,22 @@ vows.describe('Webservice').addBatch({
 			res.end(JSON.stringify({ works: 'yeah' }));
 		    });
 		}).listen(91234, '127.0.0.1', function() {
-		    logger.log('info', 'A message', function() {
-			var args = Array.prototype.slice.call(arguments);
-			args.push(data.toString());
-			that.callback.apply(that, args);
+		    logger.log('info', 'A message', function(err) {
+			that.callback.apply(that, [err, data.toString()]);
 		    });
 		});
 	    },
-	    'gets the correct response': function(err, msg, level, statusCode, resData, postedData) {
+	    'gets the correct response': function(err, postedData) {
 		assert.isTrue(!err);
-		assert.equal(statusCode, 200);
-		assert.equal(resData, JSON.stringify({ works: 'yeah' }));
 	    },
-	    'posts the properly encoded data': function(err, msg, level, statusCode, resData, postedData) {
+	    'posts the properly encoded data': function(err, postedData) {
 		assert.isTrue(!err);
-		assert.equal(msg.trim(), postedData.trim());
+		assert.match(postedData.trim(), re(JSON.stringify({ level: 'info', head: 'INFO', message: 'A message', timestamp: '[\\d\\-]+T[\\d:]+' })));
 	    }
 	}
     }
 }).export(module);
+
+function re(str) {
+    return new RegExp(str.replace(/\\\\(.)/g, '\\$1'));
+}

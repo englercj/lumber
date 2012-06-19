@@ -37,20 +37,26 @@ vows.describe('File').addBatch({
 
 		logger.log('info', 'A message', this.callback);
 	    },
-	    'create the proper file': function(err, msg, level) {
+	    'create the proper file': function(err) {
 		var f;
 		try { f = fs.statSync(path.resolve('app.log')); } catch(e) {}
 
 		assert.isTrue(!err);
 		assert.isTrue(!!f);
 	    },
-	    'write properly enocoded data': function(err, msg, level) {
+	    'write properly enocoded data': function(err) {
 		assert.isTrue(!err);
-		assert.equal(msg.trim(), fs.readFileSync(path.resolve('app.log'), 'utf8').trim());
+		assert.match(fs.readFileSync(path.resolve('app.log'), 'utf8').trim(),
+			     re(JSON.stringify({ level: 'info', head: 'INFO', message: 'A message', timestamp: '[\\d\\-]+T[\\d:]+' })));
+
 	    },
-	    teardown: function(err, msg, level) {
+	    teardown: function(err) {
 		try { fs.unlinkSync(path.resolve('app.log')); } catch(e) {}
 	    }
 	}
     }
 }).export(module);
+
+function re(str) {
+    return new RegExp(str.replace(/\\\\(.)/g, '\\$1'));
+}
