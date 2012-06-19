@@ -18,18 +18,69 @@ vows.describe('Logger').addBatch({
         topic: function() {
             return new lumber.Logger();
         },
-        'should have deaults set': function(logger) {
-            assert.isObject(logger.levels);
-            assert.deepEqual(logger.levels, lumber.defaults.levels);
-            assert.deepEqual(logger.colors, lumber.defaults.colors);
-        },
-        'should have correct functions': function(logger) {
-            assert.isFunction(logger.log);
+	'has': {
+            'the correct deaults': function(logger) {
+		assert.isObject(logger.levels);
+		assert.deepEqual(logger.levels, lumber.defaults.levels);
+		assert.deepEqual(logger.colors, lumber.defaults.colors);
+            },
+            'the correct functions': function(logger) {
+		assert.isFunction(logger.log);
 
-            Object.keys(logger.levels).forEach(function(key) {
-                assert.isFunction(logger[key]);
-            });
-        }
-        //TODO: Test that funcs work properly
+		Object.keys(logger.levels).forEach(function(key) {
+                    assert.isFunction(logger[key]);
+		});
+            }
+	},
+	'should': {
+	    topic: function() {
+		var trans = { level: 'info', log: function(){} },
+		logger = new lumber.Logger({ transports: [trans] });
+
+		return { trans: trans, logger: logger };
+	    },
+	    'not call silent log': function(o) {
+		//make test fail if called
+		o.trans.log = function() { assert.isTrue(false); };
+		o.logger.log('silent', 'message');
+		o.logger.silent('message');
+	    },
+	    'call error log': function(o) {
+		//make test pass if called
+		o.trans.log = function() { assert.isTrue(true); };
+		o.logger.log('error', 'message');
+		o.logger.error('message');
+	    },
+	    'call warn log': function(o) {
+		//make test pass if called
+		o.trans.log = function() { assert.isTrue(true); };
+		o.logger.log('warn', 'message');
+		o.logger.warn('message');
+	    },
+	    'call info log': function(o) {
+		//make test pass if called
+		o.trans.log = function() { assert.isTrue(true); };
+		o.logger.log('info', 'message');
+		o.logger.info('message');
+	    },
+	    'not call verbose log': function(o) {
+		//make test fail if called
+		o.trans.log = function() { assert.isTrue(false); };
+		o.logger.log('verbose', 'message');
+		o.logger.verbose('message');
+	    },
+	    'not call debug log': function(o) {
+		//make test fail if called
+		o.trans.log = function() { assert.isTrue(false); };
+		o.logger.log('debug', 'message');
+		o.logger.debug('message');
+	    },
+	    'not call silly log': function(o) {
+		//make test fail if called
+		o.trans.log = function() { assert.isTrue(false); };
+		o.logger.log('silly', 'message');
+		o.logger.silly('message');
+	    }
+	}
     }
 }).export(module);
