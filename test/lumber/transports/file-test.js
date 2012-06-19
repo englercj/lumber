@@ -1,5 +1,5 @@
 /**
- * file-test.js: Tests the console transport
+ * file-test.js: Tests the file transport
  *
  * (c) 2012 Panther Development
  * MIT LICENSE
@@ -47,6 +47,9 @@ vows.describe('File').addBatch({
 	    'write properly enocoded data': function(err, msg, level) {
 		assert.isTrue(!err);
 		assert.equal(msg.trim(), fs.readFileSync(path.resolve('app.log'), 'utf8').trim());
+	    },
+	    teardown: function(err, msg, level) {
+		try { fs.unlinkSync(path.resolve('app.log')); } catch(e) {}
 	    }
 	}
     }

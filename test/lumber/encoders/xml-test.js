@@ -13,8 +13,8 @@ assert = require('assert'),
 cov = require('../../coverage'),
 lumber = cov.require('../lib/lumber');
 
-vows.describe('Text').addBatch({
-    'text encoder': {
+vows.describe('Xml').addBatch({
+    'xml encoder': {
         topic: function() {
             return new lumber.encoders.Xml();
         },
