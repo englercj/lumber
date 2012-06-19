@@ -25,6 +25,7 @@ vows.describe('Text').addBatch({
                 assert.isFalse(enc.timestamp);
                 assert.equal(enc.headFormat, '%l: ');
                 assert.equal(enc.dateFormat, 'isoDateTime');
+		assert.equal(enc.contentType, 'text/plain');
                 assert.isFunction(enc.inspect);
             },
             'the correct functions': function(enc) {

@@ -1,5 +1,5 @@
 /**
- * text-test.js: Tests the text encoder
+ * json-test.js: Tests the json encoder
  *
  * (c) 2012 Panther Development
  * MIT LICENSE
@@ -24,6 +24,7 @@ vows.describe('Json').addBatch({
                 assert.isTrue(enc.timestamp);
                 assert.equal(enc.headFormat, '%L');
                 assert.equal(enc.dateFormat, 'isoDateTime');
+		assert.equal(enc.contentType, 'application/json');
             },
             'has the correct functions': function(enc) {
                 assert.isFunction(enc.encode);
