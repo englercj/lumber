@@ -1,5 +1,5 @@
 /**
- * encoders-test.js: Tests core encoders exports
+ * encoders-test.js: Tests to ensure core encoders load properly
  *
  * (c) 2012 Panther Development
  * MIT LICENCE
