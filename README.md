@@ -148,8 +148,7 @@ logger.please('fork me');
 logger.log('yoyo', 'some message');
 ```
 
-Meta Data
----------
+### Meta Data
 
 Sometime when you are logging an event (like an error) you may have some meta data that goes along with it (like the
 error that was thrown). Lumber allows you to pass in this extra data to be logged along with you message:
@@ -167,8 +166,7 @@ try {
 }
 ```
 
-Format Params
--------------
+### Format Params
 
 Lumber also allows you to use format params, that is you get the power of [`util.format`](http://nodejs.org/api/util.html#util_util_format) when using lumber:
 
@@ -184,8 +182,7 @@ logger.info({ meta: 'data' }, 'You can insert strings: %s, or numbers: %d, or ev
 //or logger.log('info', { meta: 'data' }, 'You can insert strings: %s, or numbers: %d, or event json: %j', 'like this one', 15, { hi: 'there' });
 ```
 
-Callbacks
----------
+### Callbacks
 
 Lumber is an asynchronous logger, so it provides a callback when it has finished logging to all of it's transports:
 
