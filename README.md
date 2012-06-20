@@ -5,6 +5,8 @@
  - [Overview](#overview)
  - [Features](#features)
  - [Dependencies](#dependencies)
+ - [Installation](#installation)
+ - [Running Tests](#tests)
  - [Usage](#usage)
    - [Defaults](#defaults)
    - [Multiple Transports](#multiple-transports)
@@ -52,13 +54,28 @@ logs; each with a different encoder for their data; all with the same logger obj
 
 The easiest way to install the Lumber module is with `npm`:
 
-    npm install lumber
+```bash
+npm install lumber
+```
 
 For the bleeding edge build you can clone the repo and install:
 
-    git clone git://github.com/englercj/lumber.git &&
-    cd lumber &&
-    npm install
+```bash
+git clone git://github.com/englercj/lumber.git &&
+cd lumber &&
+npm install
+```
+
+## Tests
+
+Lumber comes with extensive unit tests written using [vows](http://vowsjs.org/). You can run
+the test suite using:
+
+```bash
+npm test
+```
+
+You can also view code coverage, and build statistics at: [ci.pantherdev.com](http://ci.pantherdev.com/job/lumber/).
 
 ## Usage
 
