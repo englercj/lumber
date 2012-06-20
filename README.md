@@ -1,8 +1,34 @@
-## Lumber (v0.0.1) [![Build Status](http://ci.pantherdev.com/job/lumber/badge/icon)](http://ci.pantherdev.com/job/lumber/)
+# Lumber (v0.0.1) [![Build Status](http://ci.pantherdev.com/job/lumber/badge/icon)](http://ci.pantherdev.com/job/lumber/)
 
+## Contents
 
-Overview
---------
+ - [Overview](#overview)
+ - [Features](#features)
+ - [Dependencies](#dependencies)
+ - [Usage](#usage)
+   - [Defaults](#defaults)
+   - [Multiple Transports](#multiple-transports)
+   - [Different Encoders](#different-encoders)
+   - [Customer Logging Levels](#custom-logging-levels)
+   - [Meta Data](#meta-data)
+   - [Format Params](#format-params)
+   - [Callbacks](#callbacks)
+   - Events
+ - [Options](#options)
+   - [Logger Options](#logger-options)
+   - [Transport Options](#transport-options)
+     - [Console Transport](#console-transport)
+	 - [File Transport](#file-transport)
+	 - [Webservice Transport](#webservice-transport)
+	 - MongoDB Transport
+	 - Redis Transport
+   - [Encoder Options](#encoder-options)
+     - [Text Encoder](#text-encoder)
+	 - [Json Encoder](#json-encoder)
+	 - [Xml Encoder](#xml-encoder)
+ - [TODO](#todo)
+
+## Overview
 
 Lumber is an asynchronous logging library that is geared towards extensibility and providing an all-in-one
 solution for logging in Node.js applications. It provides a method of logging to your CLI, a file log, or even
@@ -11,21 +37,18 @@ a webservice; each with independent configurable options.
 It is possible with Lumber to have a verbose CLI, an error log, a debug log, and a webservice taking information
 logs; each with a different encoder for their data; all with the same logger object.
 
-Features
---------
+## Features
 
  - Isolated customizable logging transports
  - Customizable Encoders
  - Settings changes can be made on-the-fly
 
-Dependencies
-------------
+## Dependencies
 
  - Node.js (0.6.x)
  - Npm (1.x.x)
 
-Installation
-------------
+## Installation
 
 The easiest way to install the Lumber module is with `npm`:
 
@@ -37,8 +60,7 @@ For the bleeding edge build you can clone the repo and install:
     cd lumber &&
     npm install
 
-Usage
------
+## Usage
 
 ### Defaults
 
@@ -208,8 +230,7 @@ logger.info({ meta: 'data' }, 'A %s message', 'formatted', function(err) {
 //or logger.log('info', { meta: 'data' }, 'A %s message', 'formatted', function(err) {});
 ```
 
-Options
--------
+## Options
 
 ### Logger Options
 
@@ -275,3 +296,12 @@ Each Encoder has it's own additional options and defaults as well, only differen
  - `colorize`: currently has no effect
  - `timestamp`: defaults to: `true`
  - `headFormat`: defaults to: `'%L'`
+
+## TODO
+
+ - Special formatting for error meta data in text encoder
+ - Stream log back into memory
+ - Query log for information
+ - More events emitted
+ - Docs on writing custom encoders/transports
+ - MongoDB / Redis transports
