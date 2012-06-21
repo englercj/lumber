@@ -247,6 +247,101 @@ logger.info({ meta: 'data' }, 'A %s message', 'formatted', function(err) {
 //or logger.log('info', { meta: 'data' }, 'A %s message', 'formatted', function(err) {});
 ```
 
+### Events
+
+Lumber also is an instance of [`EventEmitter`](http://nodejs.org/api/events.html) and it will emit events as it logs to each transport.
+The events you can listen for are:
+
+ - `log`: emitted when finished logging to a transport (for multiple transports this will fire multiple times)
+ - `logged`: emitted when finished logging to *all* transports.
+ 
+When the `logged` event is fired, it passes only an array of errors that occurred or `null` if no errors occurred:
+
+```javascript
+var lumber = require('lumber'),
+logger = new lumber.Logger();
+
+logger.info('hey there');
+logger.on('logged', function(errors) {
+    if(errors) {
+	    errors.forEach(function(err) {
+		    console.log('Error:', err);
+		});
+	}
+});
+```
+
+The `log` event is fired after each transport logs, and each transport will send the same base information:
+
+ - `error`: The error if one occurred or `null` if no error occurred
+ - `msg`: The encoded message that was logged
+ - `level`: The level of the logged message
+ - `name`: The transport's name that logged, `'console'` for `lumber.transports.Console`, `'file'` for `lumber.transports.File`, etc.
+
+Some transports will send extra information as well, here is the extra information for each transport:
+
+#### Console Transport
+
+No extra information is sent.
+
+#### File Transport
+
+ - `filename`: The resolved path to the file that was logged to
+ 
+Example:
+
+```javascript
+var lumber = require('lumber'),
+logger = new lumber.Logger({
+    transports: [
+	    lumber.transports.Console(),
+	    lumber.transports.File({ filename: 'errors.log', level: 'error' }),
+		lumber.transports.File({ filename: 'full.log', level: 'silly' })
+	]
+});
+
+logger.info('hey there');
+logger.on('log', function(err, msg, level, name, filename) {
+    //if this is the file transport that finished
+    if(name == 'file') {
+	    if(filename.indexOf('errors.log') != -1) {
+		    //this is the errors log that finished
+		} else {
+		    //this is the full log that finished
+		}
+	}
+});
+```
+ 
+#### Webservice Transport
+
+ - `url`: The url that the data was sent to
+ - `statusCode`: The status code of the response from the webservice hit
+ - `responseBody`: The body of the response from the webservice hit
+
+```javascript
+var lumber = require('lumber'),
+logger = new lumber.Logger({
+    transports: [
+	    lumber.transports.Console(),
+	    lumber.transports.Webservice({ url: 'http://myservice.com/service' })
+	]
+});
+
+logger.info('hey there');
+logger.on('log', function(err, msg, level, name, url, statusCode, responseBody) {
+    //if this is the webservice transport that finished
+    if(name == 'webservice') {
+	    if(statusCode == 200) {
+  		    //for this example, lets assume our service returns JSON
+			var res = JSON.parse(responseBody);
+			
+		    console.log(res.somethingOrAnotherReturned);
+		}
+	}
+});
+```
+
 ## Options
 
 ### Logger Options
