@@ -1,0 +1,557 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lumber by englercj</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/englercj/lumber">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/englercj/lumber/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/englercj/lumber/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Lumber</h1>
+          <p>A custom, async, extensible logging library</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/englercj">englercj</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Lumber (v0.0.1)</h1>
+
+<h2>Contents</h2>
+
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#tests">Running Tests</a></li>
+<li>
+<a href="#usage">Usage</a>
+
+<ul>
+<li><a href="#defaults">Defaults</a></li>
+<li><a href="#multiple-transports">Multiple Transports</a></li>
+<li><a href="#different-encoders">Different Encoders</a></li>
+<li><a href="#custom-logging-levels">Customer Logging Levels</a></li>
+<li><a href="#meta-data">Meta Data</a></li>
+<li><a href="#format-params">Format Params</a></li>
+<li><a href="#callbacks">Callbacks</a></li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+<li>
+<a href="#options">Options</a>
+
+<ul>
+<li><a href="#logger-options">Logger Options</a></li>
+<li><a href="#transport-options">Transport Options</a></li>
+<li><a href="#encoder-options">Encoder Options</a></li>
+</ul>
+</li>
+<li><a href="#todo">TODO</a></li>
+</ul><h2>Overview</h2>
+
+<p>Lumber is an asynchronous logging library that is geared towards extensibility and providing an all-in-one
+solution for logging in Node.js applications. It provides a method of logging to your CLI, a file log, or even
+a webservice; each with independent configurable options.</p>
+
+<p>It is possible with Lumber to have a verbose CLI, an error log, a debug log, and a webservice taking information
+logs; each with a different encoder for their data; all with the same logger object.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Isolated customizable logging transports</li>
+<li>Customizable Encoders</li>
+<li>Settings changes can be made on-the-fly</li>
+</ul><h2>Dependencies</h2>
+
+<ul>
+<li>Node.js (0.6.x)</li>
+<li>Npm (1.x.x)</li>
+</ul><h2>Installation</h2>
+
+<p>The easiest way to install the Lumber module is with <code>npm</code>:</p>
+
+<div class="highlight">
+<pre>npm install lumber
+</pre>
+</div>
+
+
+<p>For the bleeding edge build you can clone the repo and install:</p>
+
+<div class="highlight">
+<pre>git clone git://github.com/englercj/lumber.git <span class="o">&amp;&amp;</span>
+<span class="nb">cd </span>lumber <span class="o">&amp;&amp;</span>
+npm install
+</pre>
+</div>
+
+
+<h2>Tests</h2>
+
+<p>Lumber comes with extensive unit tests written using <a href="http://vowsjs.org/">vows</a>. You can run
+the test suite using:</p>
+
+<div class="highlight">
+<pre>npm <span class="nb">test</span>
+</pre>
+</div>
+
+
+<p>You can also view code coverage, and build statistics at: <a href="http://ci.pantherdev.com/job/lumber/">ci.pantherdev.com</a>.</p>
+
+<h2>Usage</h2>
+
+<h3>Defaults</h3>
+
+<p>By default lumber uses a console transport, with a text encoder. You can use it simply like:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">();</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'info'</span><span class="p">,</span> <span class="s1">'Hey there!'</span><span class="p">);</span>
+<span class="c1">//OR</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'Hey there!'</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>Multiple Transports</h3>
+
+<p>To use multiple transports, such as a console logger and a file. Simply specify them using the <code>transports</code> option:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">});</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'info'</span><span class="p">,</span> <span class="s1">'Hey there!'</span><span class="p">);</span>
+<span class="c1">//OR</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'Hey there!'</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>This will print <code>info: Hey there!</code> to the console, as well as to the default file <code>app.log</code> (though the logfile will be in json). Another example is to have a verbose CLI, error log, and debug log:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">({</span> <span class="nx">level</span><span class="o">:</span> <span class="s1">'verbose'</span> <span class="p">}),</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span> <span class="nx">filename</span><span class="o">:</span> <span class="s1">'errors.log'</span><span class="p">,</span> <span class="nx">level</span><span class="o">:</span> <span class="s1">'error'</span> <span class="p">}),</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span> <span class="nx">filename</span><span class="o">:</span> <span class="s1">'debug.log'</span><span class="p">,</span> <span class="nx">level</span><span class="o">:</span> <span class="s1">'debug'</span> <span class="p">})</span>
+    <span class="p">]</span>
+<span class="p">});</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'Info message'</span><span class="p">);</span> <span class="c1">//logs to console &amp; debug.log</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'Error message'</span><span class="p">);</span> <span class="c1">//logs to console, debug.log, and errors.log</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s1">'Debug message'</span><span class="p">);</span> <span class="c1">//logs to debug.log</span>
+</pre>
+</div>
+
+
+<h3>Different Encoders</h3>
+
+<p>If you don't like the default encoder chosen by a transport you can easily change it:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span>
+            <span class="nx">filename</span><span class="o">:</span> <span class="s1">'app.log'</span><span class="p">,</span>
+            <span class="nx">encoder</span><span class="o">:</span> <span class="s1">'text'</span>
+        <span class="p">})</span>
+    <span class="p">]</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>Or if you need to specify options on your own encoder, you can instantiate it instead of passing a string:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span>
+            <span class="nx">filename</span><span class="o">:</span> <span class="s1">'app.log'</span><span class="p">,</span>
+            <span class="nx">encoder</span><span class="o">:</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">encoders</span><span class="p">.</span><span class="nx">Text</span><span class="p">({</span>
+                <span class="nx">colorize</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                <span class="nx">headFormat</span><span class="o">:</span> <span class="s1">'[%L] '</span>
+            <span class="p">})</span>
+        <span class="p">})</span>
+    <span class="p">]</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h3>Custom Logging Levels</h3>
+
+<p>You can pass your own levels and/or colors to a logger instance to override the defaults. Remember that any 
+negative log level will be considered a "silent" level, which allows for a state that the logger does not log anything:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">levels</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">silent</span><span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="nx">error</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">yoyo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">please</span><span class="o">:</span> <span class="mi">2</span>
+    <span class="p">},</span>
+    <span class="nx">colors</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">error</span><span class="o">:</span> <span class="s1">'red'</span><span class="p">,</span>
+        <span class="nx">yoyo</span><span class="o">:</span> <span class="s1">'rainbow'</span><span class="p">,</span>
+        <span class="nx">please</span><span class="o">:</span> <span class="s1">'grey'</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">//now the logger has those levels as convenience functions</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">yoyo</span><span class="p">(</span><span class="s1">'Yo Yo Yo!'</span><span class="p">);</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">please</span><span class="p">(</span><span class="s1">'fork me'</span><span class="p">);</span>
+
+<span class="c1">//or you can specify them explicitly</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'yoyo'</span><span class="p">,</span> <span class="s1">'some message'</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>Meta Data</h3>
+
+<p>Sometime when you are logging an event (like an error) you may have some meta data that goes along with it (like the
+error that was thrown). Lumber allows you to pass in this extra data to be logged along with you message:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">),</span>
+<span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">();</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">statSync</span><span class="p">(</span><span class="s1">'doesnt_exist.file'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="s1">'File does not exist'</span><span class="p">);</span>
+    <span class="c1">//or logger.log('error', e, 'File does not exist');</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>Format Params</h3>
+
+<p>Lumber also allows you to use format params, that is you get the power of <a href="http://nodejs.org/api/util.html#util_util_format"><code>util.format</code></a> when using lumber:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">();</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'You can insert strings: %s, or numbers: %d, or event json: %j'</span><span class="p">,</span> <span class="s1">'like this one'</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="p">{</span> <span class="nx">hi</span><span class="o">:</span> <span class="s1">'there'</span> <span class="p">});</span>
+<span class="c1">//or logger.log('info', 'You can insert strings: %s, or numbers: %d, or event json: %j', 'like this one', 15, { hi: 'there' });</span>
+
+<span class="c1">//You can still pass meta data if you want to:</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">({</span> <span class="nx">meta</span><span class="o">:</span> <span class="s1">'data'</span> <span class="p">},</span> <span class="s1">'You can insert strings: %s, or numbers: %d, or event json: %j'</span><span class="p">,</span> <span class="s1">'like this one'</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="p">{</span> <span class="nx">hi</span><span class="o">:</span> <span class="s1">'there'</span> <span class="p">});</span>
+<span class="c1">//or logger.log('info', { meta: 'data' }, 'You can insert strings: %s, or numbers: %d, or event json: %j', 'like this one', 15, { hi: 'there' });</span>
+</pre>
+</div>
+
+
+<h3>Callbacks</h3>
+
+<p>Lumber is an asynchronous logger, so it provides a callback when it has finished logging to all of it's transports:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span> <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span><span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">()]</span> <span class="p">});</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'A message'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Error:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="c1">//or logger.log('info', 'A message', function(err) {});</span>
+
+<span class="c1">//you can still specify meta data if you want</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">({</span> <span class="nx">meta</span><span class="o">:</span> <span class="s1">'data'</span> <span class="p">},</span> <span class="s1">'A message'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Error:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="c1">//or logger.log('info', { meta: 'data' }, 'A message', function(err) {});</span>
+
+<span class="c1">//you can even continue to use format args</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">({</span> <span class="nx">meta</span><span class="o">:</span> <span class="s1">'data'</span> <span class="p">},</span> <span class="s1">'A %s message'</span><span class="p">,</span> <span class="s1">'formatted'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Error:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="c1">//or logger.log('info', { meta: 'data' }, 'A %s message', 'formatted', function(err) {});</span>
+</pre>
+</div>
+
+
+<h3>Events</h3>
+
+<p>Lumber also is an instance of <a href="http://nodejs.org/api/events.html"><code>EventEmitter</code></a> and it will emit events as it logs to each transport.
+The events you can listen for are:</p>
+
+<ul>
+<li>
+<code>log</code>: emitted when finished logging to a transport (for multiple transports this will fire multiple times)</li>
+<li>
+<code>logged</code>: emitted when finished logging to <em>all</em> transports.</li>
+</ul><p>When the <code>logged</code> event is fired, it passes only an array of errors that occurred or <code>null</code> if no errors occurred:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">();</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'hey there'</span><span class="p">);</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'logged'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">errors</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Error:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>The <code>log</code> event is fired after each transport logs, and each transport will send the same base information:</p>
+
+<ul>
+<li>
+<code>error</code>: The error if one occurred or <code>null</code> if no error occurred</li>
+<li>
+<code>msg</code>: The encoded message that was logged</li>
+<li>
+<code>level</code>: The level of the logged message</li>
+<li>
+<code>name</code>: The transport's name that logged, <code>'console'</code> for <code>lumber.transports.Console</code>, <code>'file'</code> for <code>lumber.transports.File</code>, etc.</li>
+</ul><p>Some transports will send extra information as well, here is the extra information for each transport:</p>
+
+<h4>Console Transport</h4>
+
+<p>No extra information is sent.</p>
+
+<h4>File Transport</h4>
+
+<ul>
+<li>
+<code>filename</code>: The resolved path to the file that was logged to</li>
+</ul><p>Example:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+        <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">(),</span>
+        <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span> <span class="nx">filename</span><span class="o">:</span> <span class="s1">'errors.log'</span><span class="p">,</span> <span class="nx">level</span><span class="o">:</span> <span class="s1">'error'</span> <span class="p">}),</span>
+        <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span> <span class="nx">filename</span><span class="o">:</span> <span class="s1">'full.log'</span><span class="p">,</span> <span class="nx">level</span><span class="o">:</span> <span class="s1">'silly'</span> <span class="p">})</span>
+    <span class="p">]</span>
+<span class="p">});</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'hey there'</span><span class="p">);</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'log'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">msg</span><span class="p">,</span> <span class="nx">level</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//if this is the file transport that finished</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s1">'file'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">filename</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'errors.log'</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">//this is the errors log that finished</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">//this is the full log that finished</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h4>Webservice Transport</h4>
+
+<ul>
+<li>
+<code>url</code>: The url that the data was sent to</li>
+<li>
+<code>statusCode</code>: The status code of the response from the webservice hit</li>
+<li>
+<code>responseBody</code>: The body of the response from the webservice hit</li>
+</ul><div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">lumber</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'lumber'</span><span class="p">),</span>
+<span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">lumber</span><span class="p">.</span><span class="nx">Logger</span><span class="p">({</span>
+    <span class="nx">transports</span><span class="o">:</span> <span class="p">[</span>
+        <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">(),</span>
+        <span class="nx">lumber</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Webservice</span><span class="p">({</span> <span class="nx">url</span><span class="o">:</span> <span class="s1">'http://myservice.com/service'</span> <span class="p">})</span>
+    <span class="p">]</span>
+<span class="p">});</span>
+
+<span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'hey there'</span><span class="p">);</span>
+<span class="nx">logger</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'log'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">msg</span><span class="p">,</span> <span class="nx">level</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">statusCode</span><span class="p">,</span> <span class="nx">responseBody</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//if this is the webservice transport that finished</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s1">'webservice'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">//for this example, lets assume our service returns JSON</span>
+            <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>
+
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">somethingOrAnotherReturned</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>Options</h2>
+
+<h3>Logger Options</h3>
+
+<p>Here are all the options associated with a logger:</p>
+
+<ul>
+<li>
+<code>levels</code>: Log levels associated with this logger, defaults to: <code>{ silent: -1, error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }</code>
+</li>
+<li>
+<code>colors</code>: Colors of levels in this logger, defaults to: <code>{ error: 'red', warn: 'yellow', info: 'cyan', verbose: 'magenta', debug: 'green', silly: 'grey' }</code>
+</li>
+<li>
+<code>transports</code>: The transports for this logger, instantiated from <code>lumber.transports</code>, defaults to: <code>[new lumber.transports.Console()]</code>
+</li>
+<li>
+<code>level</code>: The log level of this logger (can be overridden at the transport level), defaults to: <code>'info'</code>
+</li>
+</ul><h3>Transport Options</h3>
+
+<p>Here are the options common to all transports:</p>
+
+<ul>
+<li>
+<code>encoder</code>: The encoder to use for this transport, defaults vary.</li>
+<li>
+<code>level</code>: The log level of this transport, defaults to: logger level.</li>
+</ul><p>Each Transport has it's own additional options and defaults as well, only differences from the common list are mentioned:</p>
+
+<h4>Console Transport</h4>
+
+<ul>
+<li>
+<code>encoder</code>: defaults to: <code>'text'</code>
+</li>
+</ul><h4>File Transport</h4>
+
+<ul>
+<li>
+<code>encoder</code>: defaults to: <code>'json'</code>
+</li>
+<li>
+<code>filename</code>: The filename to log to, defaults to: <code>'app.log'</code>
+</li>
+</ul><h4>Webservice Transport</h4>
+
+<ul>
+<li>
+<code>encoder</code>: defaults to: <code>'json'</code>
+</li>
+<li>
+<code>url</code>: The URL of the webservice, like <code>http://domain.com/service</code>
+</li>
+<li>
+<code>method</code>: The method of the request to the webservice, defaults to: <code>'POST'</code>
+</li>
+<li>
+<code>headers</code>: The headers to send with the request, defaults to the encoder's content type.</li>
+<li>
+<code>secure</code>: Whether or not to use SSL, must be set for https requests, defaults to: <code>false</code>
+</li>
+<li>
+<code>auth</code>: Authentication for basic auth, in the format <code>username:password</code>
+</li>
+</ul><h3>Encoder Options</h3>
+
+<p>Here are the options common to all encoders:</p>
+
+<ul>
+<li>
+<code>colorize</code>: Whether or not to apply the color scheme, defaults vary.</li>
+<li>
+<code>timestamp</code>: Whether or not to apply a timestamp when encoding the log, defaults vary.</li>
+<li>
+<code>headFormat</code>: The format of the message "head", the head is a formatted way of printing the log level of this message, defaults vary.</li>
+<li>
+<code>dateFormat</code>: The format of the timestamps on logs, uses <a href="https://github.com/felixge/node-dateformat">node-dateformat</a>, defaults to: <code>'isoDateTime'</code>
+</li>
+</ul><p>Each Encoder has it's own additional options and defaults as well, only differences from the common list are mentioned:</p>
+
+<h4>Text Encoder</h4>
+
+<ul>
+<li>
+<code>colorize</code>: defaults to: <code>true</code>
+</li>
+<li>
+<code>timestamp</code>: defaults to: <code>false</code>
+</li>
+<li>
+<code>headFormat</code>: defaults to: <code>'%l: '</code>
+</li>
+</ul><h4>Json Encoder</h4>
+
+<ul>
+<li>
+<code>colorize</code>: currently has no effect</li>
+<li>
+<code>timestamp</code>: defaults to: <code>true</code>
+</li>
+<li>
+<code>headFormat</code>: defaults to: <code>'%L'</code>
+</li>
+</ul><h4>Xml Encoder</h4>
+
+<ul>
+<li>
+<code>colorize</code>: currently has no effect</li>
+<li>
+<code>timestamp</code>: defaults to: <code>true</code>
+</li>
+<li>
+<code>headFormat</code>: defaults to: <code>'%L'</code>
+</li>
+</ul><h2>TODO</h2>
+
+<ul>
+<li>Special formatting for error meta data in text encoder</li>
+<li>Stream log back into memory</li>
+<li>Query log for information</li>
+<li>Docs on writing custom encoders/transports</li>
+<li>MongoDB / Redis transports</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
