@@ -49,22 +49,29 @@ vows.describe('Webservice').addBatch({
 			res.end(JSON.stringify({ works: 'yeah' }));
 		    });
 		}).listen(91234, '127.0.0.1', function() {
-		    logger.log('info', 'A message', function(err) {
-			that.callback.apply(that, [err, data.toString()]);
+		    logger.log('info', 'A message');
+		    logger.on('log', function() {
+			var args = Array.prototype.slice.call(arguments);
+			args.push(data.toString());
+			that.callback.apply(that, args);
 		    });
 		});
 	    },
-	    'gets the correct response': function(err, postedData) {
+	    'get the correct response': function(err, msg, level, name, url, statusCode, resData, postData) {
 		assert.isTrue(!err);
+		assert.equal(statusCode, 200);
+		assert.equal(resData, JSON.stringify({ works: 'yeah' }));
 	    },
-	    'posts the properly encoded data': function(err, postedData) {
+	    'pass the correct params': function(err, msg, level, name, url, statusCode, resData, postData) {
 		assert.isTrue(!err);
-		assert.match(postedData.trim(), re(JSON.stringify({ level: 'info', head: 'INFO', message: 'A message', timestamp: '[\\d\\-]+T[\\d:]+' })));
+		assert.equal(level, 'info');
+		assert.equal(name, 'webservice');
+		assert.equal(url, 'http://localhost:91234');
+	    },
+	    'post the properly encoded data': function(err, msg, level, name, url, statusCode, resData, postData) {
+		assert.isTrue(!err);
+		assert.equal(msg.trim(), postData.trim());
 	    }
 	}
     }
 }).export(module);
-
-function re(str) {
-    return new RegExp(str.replace(/\\\\(.)/g, '\\$1'));
-}
