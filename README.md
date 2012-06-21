@@ -15,19 +15,11 @@
    - [Meta Data](#meta-data)
    - [Format Params](#format-params)
    - [Callbacks](#callbacks)
-   - Events
+   - [Events](#events)
  - [Options](#options)
    - [Logger Options](#logger-options)
    - [Transport Options](#transport-options)
-     - [Console Transport](#console-transport)
-	 - [File Transport](#file-transport)
-	 - [Webservice Transport](#webservice-transport)
-	 - MongoDB Transport
-	 - Redis Transport
    - [Encoder Options](#encoder-options)
-     - [Text Encoder](#text-encoder)
-	 - [Json Encoder](#json-encoder)
-	 - [Xml Encoder](#xml-encoder)
  - [TODO](#todo)
 
 ## Overview
@@ -414,6 +406,5 @@ Each Encoder has it's own additional options and defaults as well, only differen
  - Special formatting for error meta data in text encoder
  - Stream log back into memory
  - Query log for information
- - More events emitted
  - Docs on writing custom encoders/transports
  - MongoDB / Redis transports
