@@ -1,4 +1,4 @@
-# Lumber (v0.0.1) [![Build Status](http://ci.pantherdev.com/job/lumber/badge/icon)](http://ci.pantherdev.com/job/lumber/)
+# Lumber (v0.0.1) 
 
 ## Contents
 
