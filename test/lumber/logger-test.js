@@ -34,7 +34,7 @@ vows.describe('Logger').addBatch({
 	},
 	'should': {
 	    topic: function() {
-		var trans = { level: 'info', log: function(){} },
+		var trans = { level: 'info', log: function(){}, encoder: {} },
 		logger = new lumber.Logger({ transports: [trans] });
 
 		return { trans: trans, logger: logger };
