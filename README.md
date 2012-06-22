@@ -407,6 +407,7 @@ Each Encoder has it's own additional options and defaults as well, only differen
 ## TODO
 
  - colorize is written but not implemented
+ - Better Metadata formatting
  - Tests for on-the-fly changes of settings
  - Special formatting for error meta data in text encoder
  - Stream log back into memory
