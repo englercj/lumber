@@ -362,7 +362,10 @@ Each Transport has it's own additional options and defaults as well, only differ
 
  - `encoder`: defaults to: `'json'`
  - `filename`: The filename to log to, defaults to: `'app.log'`
- 
+ - `fileMode`: The file permission to set on the file, defaults to: `'0666'`
+ - `maxSize`: The max size of the file in byte before it is rotated, defaults to: `52428800` (50MB)
+ - `rotate`: When rotating files if we have more than this number oldest logs are deleted, defaults to: `10`
+
 #### Webservice Transport
 
  - `encoder`: defaults to: `'json'`
@@ -403,6 +406,7 @@ Each Encoder has it's own additional options and defaults as well, only differen
 
 ## TODO
 
+ - colorize is written but not implemented
  - Tests for on-the-fly changes of settings
  - Special formatting for error meta data in text encoder
  - Stream log back into memory
