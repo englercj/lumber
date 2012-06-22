@@ -49,25 +49,25 @@ vows.describe('Text').addBatch({
                 enc.timestamp = false;
 
                 assert.equal(enc.encode('info', 'The Message', { meta: 'data' }),
-                             'info: The Message\n' + inspect({ meta: 'data' }));
+                             'info: The Message\n\033[36m' + inspect({ meta: 'data' }));
 
                 assert.equal(enc.encode('warn', 'The Message', { meta: 'data' }),
-                             'warn: The Message\n' + inspect({ meta: 'data' }));
+                             'warn: The Message\n\033[36m' + inspect({ meta: 'data' }));
 
                 assert.equal(enc.encode('error', 'The Message', { meta: 'data' }),
-                             'error: The Message\n' + inspect({ meta: 'data' }));
+                             'error: The Message\n\033[36m' + inspect({ meta: 'data' }));
             },
             'with timestamp, and meta': function(enc) {
                 enc.timestamp = true;
 
                 assert.match(enc.encode('info', 'The Message', { meta: 'data' }),
-                             (/^info: \([\d\-]+T[\d:]+\) The Message\n\{ .+ \}.*$/));
+                             (/^info: \([\d\-]+T[\d:]+\) The Message\n.+\{ .+ \}.+$/));
 
                 assert.match(enc.encode('warn', 'The Message', { meta: 'data' }),
-                             (/^warn: \([\d\-]+T[\d:]+\) The Message\n\{ .+ \}.*$/));
+                             (/^warn: \([\d\-]+T[\d:]+\) The Message\n.+\{ .+ \}.+$/));
 
                 assert.match(enc.encode('error', 'The Message', { meta: 'data' }),
-                             (/^error: \([\d\-]+T[\d:]+\) The Message\n\{ .+ \}.*$/));
+                             (/^error: \([\d\-]+T[\d:]+\) The Message\n.+\{ .+ \}.+$/));
             }
 	}
     }
