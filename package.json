@@ -1,7 +1,7 @@
 {
     "name": "lumber",
     "description": "A custom, async, extensible logging library",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Chad Engler <chad@pantherdev.com>",
     "repository": {
 	"type": "git",
