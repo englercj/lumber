@@ -246,7 +246,7 @@ The events you can listen for are:
 
  - `log`: emitted when finished logging to a transport (for multiple transports this will fire multiple times)
  - `logged`: emitted when finished logging to *all* transports.
- 
+
 When the `logged` event is fired, it passes only an array of errors that occurred or `null` if no errors occurred:
 
 ```javascript
@@ -403,7 +403,6 @@ Each Encoder has it's own additional options and defaults as well, only differen
 
 ## TODO
 
- - Log rotation for files
  - Tests for on-the-fly changes of settings
  - Special formatting for error meta data in text encoder
  - Stream log back into memory
