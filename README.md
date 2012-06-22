@@ -403,6 +403,8 @@ Each Encoder has it's own additional options and defaults as well, only differen
 
 ## TODO
 
+ - Log rotation for files
+ - Tests for on-the-fly changes of settings
  - Special formatting for error meta data in text encoder
  - Stream log back into memory
  - Query log for information
