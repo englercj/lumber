@@ -197,6 +197,8 @@ try {
 }
 ```
 
+**Please Note:** Meta Data must be a non-string object, or you will see unexpected results.
+
 ### Format Params
 
 Lumber also allows you to use format params, that is you get the power of [`util.format`](http://nodejs.org/api/util.html#util_util_format) when using lumber:
@@ -406,9 +408,7 @@ Each Encoder has it's own additional options and defaults as well, only differen
 
 ## TODO
 
- - Better Metadata formatting
  - Tests for on-the-fly changes of settings
- - Special formatting for error meta data in text encoder
  - Stream log back into memory
  - Query log for information
  - Docs on writing custom encoders/transports
