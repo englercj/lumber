@@ -1,4 +1,4 @@
-# Lumber (v0.0.3) 
+# Lumber (v0.0.4) 
 
 ## Contents
 
