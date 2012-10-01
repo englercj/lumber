@@ -1,5 +1,7 @@
 # Lumber (v0.0.5)
 
+A custom, async, extensible logging library; with true log rotation.
+
 ## Contents
 
  - [Overview](#overview)
